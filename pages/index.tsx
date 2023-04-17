@@ -1,16 +1,25 @@
 import Login from "@/components/Login";
 import { getServerSession } from "next-auth";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { authOptions } from "./api/auth/[...nextauth]";
+import Chat from "@/components/Chat";
+import Sidebar from "@/components/Sidebar";
 
 export default function Home() {
   const { data: session } = useSession();
-console.log(session);
+  if (!session || !session.user.username) return <Login />;
 
   return (
-    <main>
-      <Login />
-    </main>
+    <>
+      <main className="flex h-screen">
+        <section className="flex-[0.3]">
+          <Sidebar />
+        </section>
+        <section className="flex-[0.7]">
+          <Chat />
+        </section>
+      </main>
+    </>
   );
 }
 

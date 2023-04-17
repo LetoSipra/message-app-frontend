@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer {
+  body {
+    @apply bg-[#111B21] text-slate-400;
+  }
+}
