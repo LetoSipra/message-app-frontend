@@ -1,4 +1,4 @@
-import { UserSchema } from "@/graphql/schemas/user";
+import { UserSchema } from "@/graphql/Operations/user";
 import { useMutation } from "@apollo/client";
 import { useSession, signIn } from "next-auth/react";
 import { useState } from "react";
