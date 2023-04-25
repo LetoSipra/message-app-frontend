@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import { Dialog } from "@headlessui/react";
-
+import React, { useEffect, useState } from "react";
 import SearchUser from "./SearchUser";
 import { useQuery } from "@apollo/client";
 import chats from "@/graphql/Operations/chats";
@@ -8,8 +6,33 @@ import chats from "@/graphql/Operations/chats";
 function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const [slideBarOpen, setSlideBarOpen] = useState<boolean>(false);
-  const { data, error, loading } = useQuery(chats.Queries.chats);
-console.log("here", data);
+  //add types & ssr
+  const { data, error, loading, subscribeToMore } = useQuery<any, any>(
+    chats.Queries.chats
+  );
+  console.log("here", data);
+
+  const subscribeChatUpdates = () => {
+    console.log("fire");
+
+    subscribeToMore({
+      document: chats.Subscriptions.chatCreated,
+      updateQuery: (prev, { subscriptionData }) => {
+        console.log("data", subscriptionData);
+        console.log("prev", prev);
+        if (!subscriptionData.data) return prev;
+        const newChat = subscriptionData.data.chatCreated;
+
+        return Object.assign({}, prev, {
+          chats: [newChat, ...prev.chats],
+        });
+      },
+    });
+  };
+
+  useEffect(() => {
+    subscribeChatUpdates();
+  }, []);
 
   return (
     <>
@@ -24,9 +47,10 @@ console.log("here", data);
             <button onClick={() => setSlideBarOpen(!slideBarOpen)}>
               search
             </button>
-            {/* new chat>modal */}
           </div>
         </div>
+        {data &&
+          data?.chats?.map((data: any) => <div key={data.id}>{data.id}</div>)}
       </div>
     </>
   );

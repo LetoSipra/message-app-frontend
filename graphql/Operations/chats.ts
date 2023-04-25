@@ -6,13 +6,13 @@ export default {
       query Chats {
         chats {
           id
+          updatedAt
           chatters {
             user {
               id
               username
             }
           }
-          updatedAt
         }
       }
     `,
@@ -26,5 +26,20 @@ export default {
       }
     `,
   },
-  Subscriptions: {},
+  Subscriptions: {
+    chatCreated: gql`
+      subscription ChatCreated {
+        chatCreated {
+          id
+          updatedAt
+          chatters {
+            user {
+              id
+              username
+            }
+          }
+        }
+      }
+    `,
+  },
 };

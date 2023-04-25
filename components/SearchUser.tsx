@@ -139,7 +139,10 @@ function SearchUser({ slideBarOpen, setSlideBarOpen }: Props) {
             <div className="mx-5 my-5">
               <button
                 className="flex w-full rounded-2xl bg-[#2a3942] p-2 hover:opacity-75"
-                onClick={() => createFC()}>
+                onClick={() => {
+                  setSlideBarOpen(false);
+                  createFC();
+                }}>
                 Add
               </button>
             </div>
