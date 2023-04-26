@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import SearchUser from "./SearchUser";
 import { useQuery } from "@apollo/client";
 import chats from "@/graphql/Operations/chats";
+import { getSession } from "next-auth/react";
 
 function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
